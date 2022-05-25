@@ -7,6 +7,8 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
+import {MatIconModule} from '@angular/material/icon';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [],
@@ -19,7 +21,9 @@ import {MatSelectModule} from '@angular/material/select';
     MatDividerModule,
     MatStepperModule,
     MatButtonModule,
-    MatSelectModule
+    MatSelectModule,
+    MatIconModule,
+    MatSlideToggleModule
   ],
   exports: [
     // Aqui se exportan los componentes que quiero usar de material
@@ -29,7 +33,9 @@ import {MatSelectModule} from '@angular/material/select';
     MatDividerModule,
     MatStepperModule,
     MatButtonModule,
-    MatSelectModule
+    MatSelectModule,
+    MatIconModule,
+    MatSlideToggleModule
   ]
 })
 export class MaterialModule { }

@@ -1,5 +1,5 @@
 <div class="container txt-center">
-  <h1 class="mt-2">Información Para Digitar Contratos</h1>
+  <h1 class="mt-2">INFORMACION PARA DIGITAR CONTRATOS</h1>
 </div>
 
 <div class="container">  
@@ -8,11 +8,11 @@
     [orientation]="(stepperOrientation | async)!">
 
     <!-- Paso #1: Datos del inmueble -->
-    <mat-step [stepControl]="propertyForm" label="Inmueble">
+    <mat-step [stepControl]="propertyForm" label="Información Inmueble">
       <form [formGroup]="propertyForm">
         <!-- Carta de INMUEBLE -->
         <mat-card class="row">
-          <mat-card-title class="txt-center">INMUEBLE</mat-card-title>
+          <mat-card-title class="txt-center">INFORMACIÓN INMUEBLE</mat-card-title>
           <mat-divider></mat-divider>
           <mat-card-content class="margin-top-content">
             <!-- ************** FORMULARIO *************** -->
@@ -28,7 +28,13 @@
                 <div class="col">
                   <mat-form-field class="example-full-width" appearance="fill">
                     <mat-label>Parqueadero #:</mat-label>
-                    <input matInput formControlName="parkNumber" required>
+                    <input matInput formControlName="parkNumber">
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Deposito #:</mat-label>
+                    <input matInput formControlName="depositNumber">
                   </mat-form-field>
                 </div>
               </div>
@@ -42,19 +48,13 @@
                 </div>
                 <div class="col">
                   <mat-form-field class="example-full-width" appearance="fill">
-                    <mat-label>Deposito #:</mat-label>
-                    <input matInput formControlName="depositNumber" required>
+                    <mat-label>Barrio:</mat-label>
+                    <input matInput formControlName="neighbourhood" required>
                   </mat-form-field>
                 </div>
               </div>
             
               <div class="row">
-                <div class="col">
-                  <mat-form-field class="example-full-width" appearance="fill">
-                    <mat-label>Barrio:</mat-label>
-                    <input matInput formControlName="neighbourhood" required>
-                  </mat-form-field>
-                </div>
                 <div class="col">
                   <mat-form-field class="example-full-width" appearance="fill">
                     <mat-label>Tipo de inmueble:</mat-label>
@@ -68,132 +68,826 @@
                       <mat-option value="casa">
                         Casa
                       </mat-option>
-                      <!-- ***************CONTINUAR -->
+                      <mat-option value="bodega">
+                        Bodega
+                      </mat-option>
+                      <mat-option value="local">
+                        Local
+                      </mat-option>
+                      <mat-option value="oficina">
+                        Oficina
+                      </mat-option>
+                      <mat-option value="casa Comercial">
+                        Casa Comercial
+                      </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Destinacion del Inmueble:</mat-label>
+                    <mat-select formControlName="propertyUse" required>                      
+                      <mat-option value="vivienda">
+                        Vivienda
+                      </mat-option>
+                      <mat-option value="comercial">
+                        Comercial
+                      </mat-option>
+                      <mat-option value="mixta">
+                        Mixta
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Actividad Comercial:</mat-label>
+                    <input matInput formControlName="comercialActivity" required>
+                  </mat-form-field>
+                </div>  
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>IVA:</mat-label>
+                    <mat-select formControlName="withIva" required>                      
+                      <mat-option value="yes">
+                        Con IVA
+                      </mat-option>
+                      <mat-option value="no">
+                        Sin IVA
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>  
               </div>
 
               <div class="row">
                 <div class="col">
                   <mat-form-field class="example-full-width" appearance="fill">
                     <mat-label>Valor Canon:</mat-label>
-                    <input matInput>
+                    <input type="number" min="1" matInput formControlName="canonPrice" required (keyup)="refreshTotal()">
                   </mat-form-field>
                 </div>
                 <div class="col">
-                  <mat-radio-group aria-label="Select an option">
-                    <mat-radio-button value="1">Bodega</mat-radio-button>
-                    <mat-radio-button value="2">Local</mat-radio-button>
-                    <mat-radio-button value="3">Oficina</mat-radio-button>
-                    <mat-radio-button value="4">Casa Comercial</mat-radio-button>
-                  </mat-radio-group>
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Valor del IVA</mat-label>
+                    <input type="number" min="0" matInput formControlName="ivaPrice" required>
+                    </mat-form-field>
                 </div>
-              </div> 
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Valor Admon</mat-label>
+                    <input type="number" min="0" matInput formControlName="admonPrice" required (keyup)="refreshTotal()">
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Total Canon</mat-label>
+                    <input type="number" min="1" matInput formControlName="totalPrice" required>
+                  </mat-form-field>
+                </div>
+              </div>    
 
+              <div class="row">
+                <div class="col-6">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Tipo de Contrato:</mat-label>
+                    <mat-select formControlName="contractType" required>                      
+                      <mat-option value="Amoblado">
+                        Cesión de Contrato
+                      </mat-option>
+                      <mat-option value="Administración">
+                        Administración
+                      </mat-option>
+                      <mat-option value="Consecución">
+                        Consecución
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div> 
+                
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill"  >
+                    <mat-label>Servicios Publicos que Incluye</mat-label>
+                    <mat-select formControlName="publicServices" multiple (selectionChange)="verifyChange($event.value)">
+                      <mat-option value="ninguno">Ninguno</mat-option>
+                      <mat-option value="agua" [disabled]="disablePublicServices">Agua</mat-option>
+                      <mat-option value="energia" [disabled]="disablePublicServices">Energía</mat-option>
+                      <mat-option value="gas" [disabled]="disablePublicServices">Gas</mat-option>
+                      <mat-option value="parabolica" [disabled]="disablePublicServices">Parabólica</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>        
+              </div>  
+            </div> 
+          </mat-card-content>
+        </mat-card>
+
+          <!-- <mat-card-actions>
+            <button mat-button>LIKE</button>
+            <button mat-button>SHARE</button>
+          </mat-card-actions> -->
+        
+
+        <!-- <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+        </mat-form-field> -->
+        <!-- Boton siguiente -->
+        <div class="btn-stepper">
+          <!-- <button mat-button matStepperNext (click)="showForm()">Next</button> -->
+          <button mat-raised-button 
+                  color="primary" 
+                  matStepperNext 
+                  (click)="showForm()">
+            Siguiente
+            <mat-icon>skip_next</mat-icon>
+          </button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- Paso #2: Informacion Vigencia del Contrato  -->
+    <mat-step [stepControl]="vigencyForm" label="Vigencia del Contrato">
+      <form [formGroup]="vigencyForm">
+        <!-- Carta de INMUEBLE -->
+        <mat-card class="row">
+          <mat-card-title class="txt-center">INFORMACIÓN CONTRATO</mat-card-title>
+          <mat-divider></mat-divider>
+          <mat-card-content class="margin-top-content">
+            <!-- ************** FORMULARIO *************** -->
+            <div class="container">
+              <!-- Utilizando el GRID de bootrap -->
               <div class="row">
                 <div class="col">
                   <mat-form-field class="example-full-width" appearance="fill">
-                    <mat-label>Valor Admon:</mat-label>
-                    <input matInput>
+                    <mat-label>Vigencia del Contrato</mat-label>
+                    <input matInput formControlName="contractTerm">
                   </mat-form-field>
                 </div>
                 <div class="col">
                   <mat-form-field class="example-full-width" appearance="fill">
-                    <mat-label>Destinacion de Inmueble</mat-label>
-                    <input matInput>
-                    </mat-form-field>
+                    <mat-label>Fecha Inicio del Contrato:</mat-label>
+                    <input matInput formControlName="contractStartDate" required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Fecha Fin del Contrato</mat-label>
+                    <input matInput formControlName="contractEndDate" required>
+                  </mat-form-field>
+                </div>                
+              </div>
+
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Nombre de Afianzadora:</mat-label>
+                  <mat-select formControlName="safeName" required>                      
+                    <mat-option value="Unifianza">
+                      Unifianza
+                    </mat-option>
+                    <mat-option value="Afianzadora Nacional">
+                      Afianzadora Nacional "Afianza"
+                    </mat-option>
+                    <mat-option value="Riesgo Propio">
+                      Riesgo Propio "Vista"
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Numero de Solicitud</mat-label>
+                  <input matInput formControlName="applicationNumber">
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Anticipo Canon de Arrendamiento</mat-label>
+                  <input matInput formControlName="advanceMoney">
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Incremento Anual</mat-label>
+                  <input matInput formControlName="annualIcrease">
+                </mat-form-field>
+              </div>
+            </div>  
+
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Observaciones</mat-label>
+                  <input matInput formControlName="observations">
+                </mat-form-field>
+              </div>
+            </div>  
+            </div> 
+          </mat-card-content>
+        </mat-card>
+
+          <!-- <mat-card-actions>
+            <button mat-button>LIKE</button>
+            <button mat-button>SHARE</button>
+          </mat-card-actions> -->
+        
+        <!-- <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+        </mat-form-field> -->
+        <!-- Boton siguiente -->
+        <div class="btn-stepper">
+          <!-- <button mat-button matStepperNext (click)="showForm()">Next</button> -->
+          <button mat-raised-button 
+                  color="primary" 
+                  matStepperNext 
+                 (click)="showForm()">
+            Siguiente
+            <mat-icon>skip_next</mat-icon>
+          </button>
+        </div>
+      </form>
+    </mat-step>  
+     
+    <!-- Paso #3: Informacion del Arrendatario  -->
+    <mat-step [stepControl]="householderInformation" label="Arrendatario">
+      <form [formGroup]="householderInformation">
+        <!-- Carta de INMUEBLE -->
+        <mat-card class="row">
+          <mat-card-title class="txt-center">INFORMACIÓN DEL ARRENDATARIO</mat-card-title>
+          <mat-divider></mat-divider>
+          <mat-card-content class="margin-top-content">
+            <!-- ************** FORMULARIO *************** -->
+            <div class="container">
+              <!-- Utilizando el GRID de bootrap -->
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Tipo de Cliente:</mat-label>
+                    <mat-select formControlName="customerType" required>                      
+                      <mat-option value="persona juridica">
+                        Persona Juridica
+                      </mat-option>
+                      <mat-option value="persona natural">
+                        Persona Natual
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Nombre Completo o Razon Social:</mat-label>
+                    <input matInput formControlName="householderName" required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Numero de Cedula o NIT:</mat-label>
+                    <input matInput formControlName="idNumber">
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Lugar de Expredición:</mat-label>
+                    <input matInput formControlName="expeditionPlace">
+                  </mat-form-field>
                 </div>
               </div>
             
               <div class="row">
                 <div class="col">
                   <mat-form-field class="example-full-width" appearance="fill">
-                    <mat-label>Total Canon</mat-label>
-                    <input matInput>
+                    <mat-label>Nombre Completo Representante Legal:</mat-label>
+                    <input matInput formControlName="agentName" required>
                   </mat-form-field>
                 </div>
                 <div class="col">
-                  <mat-radio-group aria-label="Select an option">
-                    <mat-radio-button value="1">Amoblado</mat-radio-button>
-                    <mat-radio-button value="2">Administración</mat-radio-button>
-                    <mat-radio-button value="3">Consecución</mat-radio-button>
-                  </mat-radio-group>
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Numero de Cedulo Representante Legal:</mat-label>
+                    <input matInput formControlName="idAgent">
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Lugar de Expredición:</mat-label>
+                    <input matInput formControlName="expeditionPlaceIdAgent">
+                  </mat-form-field>
                 </div>
               </div>
-        
+            
               <div class="row">
                 <div class="col">
-                  <!-- <mat-form-field class="example-full-width" appearance="fill"> -->
-                    <p>Servicios Públicos que Incluye: </p>              
-                  <!-- </mat-form-field> -->
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Celular:</mat-label>
+                    <input matInput formControlName="householderPhone" required>
+                  </mat-form-field>
+                </div> 
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Dirección:</mat-label>
+                    <input matInput formControlName="householderAdress" required>
+                  </mat-form-field>
                 </div>
                 <div class="col">
-                  <mat-radio-group aria-label="Select an option">
-                    <mat-radio-button value="1">Ninguno</mat-radio-button>
-                    <mat-radio-button value="2">Agua</mat-radio-button>
-                    <mat-radio-button value="3">Energia</mat-radio-button>
-                    <mat-radio-button value="4">Gas</mat-radio-button>
-                    <mat-radio-button value="5">Parabólica</mat-radio-button>
-                  </mat-radio-group>
-                </div>
-              </div>
-            </div>
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Correo Electrónico:</mat-label>
+                    <input matInput formControlName="householderEmail" required>
+                  </mat-form-field>
+                </div>                               
+              </div>     
+            </div> 
           </mat-card-content>
+        </mat-card>
+
           <!-- <mat-card-actions>
             <button mat-button>LIKE</button>
             <button mat-button>SHARE</button>
           </mat-card-actions> -->
-        </mat-card>
+        
 
         <!-- <mat-form-field appearance="fill">
           <mat-label>Name</mat-label>
           <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
         </mat-form-field> -->
-
-
         <!-- Boton siguiente -->
-        <div>
-          <button mat-button matStepperNext (click)="showForm()">Next</button>
+        <div class="btn-stepper">
+          <!-- <button mat-button matStepperNext (click)="showForm()">Next</button> -->
+          <button mat-raised-button 
+                  color="primary" 
+                  matStepperNext 
+                  (click)="showForm()">
+            Siguiente
+            <mat-icon>skip_next</mat-icon>
+          </button>
         </div>
       </form>
     </mat-step>
 
+    <!-- Paso #4: Informacion Deudores Solidarios -->
+    <mat-step [stepControl]="cosignerInformation" label="Deudor Solidario">
+      <form [formGroup]="cosignerInformation">
+        <!-- Carta de INMUEBLE -->
+        <mat-card class="row">
+          <mat-card-title class="txt-center">INFORMACIÓN DEUDORES SOLIDARIOS</mat-card-title>
+          <mat-divider></mat-divider>
+          <mat-card-content class="margin-top-content">
+            <!-- ************** FORMULARIO *************** -->
+            <div class="container">
+              <!-- Utilizando el GRID de bootrap -->
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Tipo de Cliente:</mat-label>
+                    <mat-select formControlName="customerType" required>                      
+                      <mat-option value="persona juridica">
+                        Persona Juridica
+                      </mat-option>
+                      <mat-option value="persona natural">
+                        Persona Natual
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Nombre Completo o Razon Social:</mat-label>
+                    <input matInput formControlName="cosignerName" required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Numero de Cedulo o NIT:</mat-label>
+                    <input matInput formControlName="idNumber">
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Lugar de Expredición:</mat-label>
+                    <input matInput formControlName="expeditionPlace">
+                  </mat-form-field>
+                </div>
+              </div>
+            
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Nombre Completo Representante Legal:</mat-label>
+                    <input matInput formControlName="agentName" required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Numero de Cedula Representante Legal:</mat-label>
+                    <input matInput formControlName="idAgent">
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Lugar de Expredición:</mat-label>
+                    <input matInput formControlName="expeditionPlaceIdAgent">
+                  </mat-form-field>
+                </div>
+              </div>
+            
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Celular:</mat-label>
+                    <input matInput formControlName="cosignerPhone" required>
+                  </mat-form-field>
+                </div> 
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Dirección:</mat-label>
+                    <input matInput formControlName="cosignerAdress" required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Correo Electrónico:</mat-label>
+                    <input matInput formControlName="cosignerEmail" required>
+                  </mat-form-field>
+                </div>                               
+              </div>     
+            </div> 
+          </mat-card-content>
+        </mat-card>
 
+          <!-- <mat-card-actions>
+            <button mat-button>LIKE</button>
+            <button mat-button>SHARE</button>
+          </mat-card-actions> -->
+        
 
-
-    <mat-step [stepControl]="secondFormGroup" label="Fill out your address">
-      <form [formGroup]="secondFormGroup">
-        <mat-form-field appearance="fill">
-          <mat-label>Address</mat-label>
-          <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
-                 required>
-        </mat-form-field>
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
+        <!-- <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+        </mat-form-field> -->
+        <!-- Boton siguiente -->
+        <div class="btn-stepper">
+          <!-- <button mat-button matStepperNext (click)="showForm()">Next</button> -->
+          <button mat-raised-button 
+                  color="primary" 
+                  matStepperNext 
+                  (click)="showForm()">
+            Siguiente
+            <mat-icon>skip_next</mat-icon>
+          </button>
         </div>
       </form>
     </mat-step>
-    <mat-step [stepControl]="thirdFormGroup" label="Fill out your phone number">
-      <form [formGroup]="thirdFormGroup">
-        <mat-form-field appearance="fill">
-          <mat-label>Phone number</mat-label>
-          <input matInput formControlName="thirdCtrl" placeholder="Ex. 12345678" required>
-        </mat-form-field>
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
+
+    <!-- Paso #5: Información Propietario -->
+    <mat-step [stepControl]="ownerInformation" label="Propietario">
+      <form [formGroup]="ownerInformation">
+        <!-- Carta de INMUEBLE -->
+        <mat-card class="row">
+          <mat-card-title class="txt-center">INFORMACIÓN DEL PROPIETARIO</mat-card-title>
+          <mat-divider></mat-divider>
+          <mat-card-content class="margin-top-content">
+            <!-- ************** FORMULARIO *************** -->
+            <div class="container">
+              <!-- Utilizando el GRID de bootrap -->
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Tipo de Documento:</mat-label>
+                    <mat-select formControlName="documentType" required>                      
+                      <mat-option value="cedula">
+                        Cédula de Ciudadanía
+                      </mat-option>
+                      <mat-option value="nit">
+                        Nit
+                      </mat-option>
+                      <mat-option value="cedula extranjería">
+                        Cédula de Extranjería
+                      </mat-option>
+                      <mat-option value="pasaporte">
+                        Pasaporte
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Número de Cedulo o NIT:</mat-label>
+                    <input matInput formControlName="idNumber"required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Lugar de Expredición:</mat-label>
+                    <input matInput formControlName="expeditionPlace">
+                  </mat-form-field>
+                </div>
+              </div>
+            
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Primer Nombre:</mat-label>
+                    <input matInput formControlName="firstName" required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Segundo Nombre:</mat-label>
+                    <input matInput formControlName="secondName"required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Primer Apellido:</mat-label>
+                    <input matInput formControlName="surName"required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Segundo Apellido:</mat-label>
+                    <input matInput formControlName="secondSurname"required>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Nombre Representante Legal:</mat-label>
+                    <input matInput formControlName="firstName" required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Cedula Representante Legal:</mat-label>
+                    <input matInput formControlName="secondName"required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Lugar de Expedición:</mat-label>
+                    <input matInput formControlName="surName"required>
+                  </mat-form-field>
+                </div>
+              </div>
+            
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Celular:</mat-label>
+                    <input matInput formControlName="cosignerPhone" required>
+                  </mat-form-field>
+                </div> 
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Dirección:</mat-label>
+                    <input matInput formControlName="cosignerAdress" required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Correo Electrónico:</mat-label>
+                    <input matInput formControlName="cosignerEmail" required>
+                  </mat-form-field>
+                </div>                               
+              </div>     
+
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>% de Comisión:</mat-label>
+                    <input matInput formControlName="commissionPercent" required>
+                  </mat-form-field>
+                </div> 
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>¿Incluya la comision en el %?:</mat-label>
+                    <input matInput formControlName="cosignerAdress" required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Correo Electrónico:</mat-label>
+                    <input matInput formControlName="cosignerEmail" required>
+                  </mat-form-field>
+                </div>                               
+              </div>  
+
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Fecha de Nacimiento:</mat-label>
+                    <input matInput formControlName="birthDay"required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>¿Vip?</mat-label>
+                    <mat-select formControlName="VIP" required>                      
+                      <mat-option value="yes">
+                        SI
+                      </mat-option>
+                      <mat-option value="no">
+                        NO
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div> 
+          </mat-card-content>
+        </mat-card>
+
+          <!-- <mat-card-actions>
+            <button mat-button>LIKE</button>
+            <button mat-button>SHARE</button>
+          </mat-card-actions> -->
+        
+
+        <!-- <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+        </mat-form-field> -->
+        <!-- Boton siguiente -->
+        <div class="btn-stepper">
+          <!-- <button mat-button matStepperNext (click)="showForm()">Next</button> -->
+          <button mat-raised-button 
+                  color="primary" 
+                  matStepperNext 
+                  (click)="showForm()">
+            Siguiente
+            <mat-icon>skip_next</mat-icon>
+          </button>
         </div>
       </form>
     </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Done</ng-template>
-      <p>You are now done.</p>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-      </div>
+
+    <!-- Paso #6: Información Administracion -->
+    <mat-step [stepControl]="admonInformation" label="Administración">
+      <form [formGroup]="admonInformation">
+        <!-- Carta de INMUEBLE -->
+        <mat-card class="row">
+          <mat-card-title class="txt-center">INFORMACIÓN DE LA ADMINISTRACIÓN</mat-card-title>
+          <mat-divider></mat-divider>
+          <mat-card-content class="margin-top-content">
+            <!-- ************** FORMULARIO *************** -->
+            <div class="container">
+              <!-- Utilizando el GRID de bootrap -->
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Tipo de Documento:</mat-label>
+                    <mat-select formControlName="documentType" required>                      
+                      <mat-option value="cedula">
+                        Cédula de Ciudadanía
+                      </mat-option>
+                      <mat-option value="nit">
+                        Nit
+                      </mat-option>
+                      <mat-option value="cedula extranjería">
+                        Cédula de Extranjería
+                      </mat-option>
+                      <mat-option value="pasaporte">
+                        Pasaporte
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Número de Cedulo o NIT:</mat-label>
+                    <input matInput formControlName="idNumber"required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Lugar de Expredición:</mat-label>
+                    <input matInput formControlName="expeditionPlace">
+                  </mat-form-field>
+                </div>
+              </div>
+            
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Primer Nombre:</mat-label>
+                    <input matInput formControlName="firstName" required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Segundo Nombre:</mat-label>
+                    <input matInput formControlName="secondName"required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Primer Apellido:</mat-label>
+                    <input matInput formControlName="surName"required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Segundo Apellido:</mat-label>
+                    <input matInput formControlName="secondSurname"required>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Nombre Representante Legal:</mat-label>
+                    <input matInput formControlName="firstName" required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Cedula Representante Legal:</mat-label>
+                    <input matInput formControlName="secondName"required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Lugar de Expedición:</mat-label>
+                    <input matInput formControlName="surName"required>
+                  </mat-form-field>
+                </div>
+              </div>
+            
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Celular:</mat-label>
+                    <input matInput formControlName="cosignerPhone" required>
+                  </mat-form-field>
+                </div> 
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Dirección:</mat-label>
+                    <input matInput formControlName="cosignerAdress" required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Correo Electrónico:</mat-label>
+                    <input matInput formControlName="cosignerEmail" required>
+                  </mat-form-field>
+                </div>                               
+              </div>     
+
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Fecha de Nacimiento:</mat-label>
+                    <input matInput formControlName="birthDay"required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>¿Vip?</mat-label>
+                    <mat-select formControlName="VIP" required>                      
+                      <mat-option value="yes">
+                        SI
+                      </mat-option>
+                      <mat-option value="no">
+                        NO
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div> 
+          </mat-card-content>
+        </mat-card>
+
+          <!-- <mat-card-actions>
+            <button mat-button>LIKE</button>
+            <button mat-button>SHARE</button>
+          </mat-card-actions> -->
+        
+
+        <!-- <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+        </mat-form-field> -->
+        <!-- Boton siguiente -->
+        <div class="btn-stepper">
+          <!-- <button mat-button matStepperNext (click)="showForm()">Next</button> -->
+          <button mat-raised-button 
+                  color="primary" 
+                  matStepperNext 
+                  (click)="showForm()">
+            Siguiente
+            <mat-icon>skip_next</mat-icon>
+          </button>
+        </div>
+      </form>
     </mat-step>
+
   </mat-stepper>  
 </div>
 
